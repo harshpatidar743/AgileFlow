@@ -76,7 +76,7 @@ export const Navbar: React.FC<NavbarProps> = ({ unreadCount, onToggleSidebar, on
               variant="outlined"
               size="small"
               startIcon={<Code2 size={16} />}
-              href="http://localhost:8080/swagger-ui.html"
+              href={`${import.meta.env.VITE_API_URL || 'http://localhost:8080/api'}`.replace(/\/api$/, '') + '/swagger-ui/index.html'}
               target="_blank"
               rel="noopener noreferrer"
               sx={{ textTransform: 'none', borderRadius: 2 }}

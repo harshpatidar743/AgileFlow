@@ -5,6 +5,7 @@ AgileFlow is a lightweight Agile Project Management web application built for sm
 ## Table of Contents
 
 - [Features](#features)
+- [Live Demo](#live-demo)
 - [Architecture](#architecture)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
@@ -35,6 +36,12 @@ AgileFlow is a lightweight Agile Project Management web application built for sm
 - Single-page navigation using React Router
 - Filtered views for project-specific stories and story-specific tasks
 - Clean Material UI design with responsive layout
+
+## Live Demo
+
+**Application:** https://agile-flow-topaz.vercel.app
+
+**API Documentation:** https://agileflow-jl7c.onrender.com/swagger-ui/index.html
 
 ## Architecture
 
@@ -219,7 +226,16 @@ frontend/
    mvn spring-boot:run
    ```
 
-The backend listens on `http://localhost:8080` by default.
+The backend listens on `http://localhost:8080` by default. In deployment environments like Render, the backend will bind to the `PORT` environment variable using `server.port=${PORT:8080}`.
+
+### Backend Docker (optional)
+
+The backend also includes a Dockerfile at `backend/Dockerfile` so it can be containerized for deployment.
+
+```bash
+cd backend
+docker build -t agileflow-backend .
+```
 
 ### Frontend Setup
 
@@ -238,6 +254,8 @@ The backend listens on `http://localhost:8080` by default.
 
 The frontend dev server usually opens at `http://localhost:5173`.
 
+The frontend uses an environment variable for the API base URL: `VITE_API_URL`. Locally it falls back to `http://localhost:8080/api`, and in production it can point to the deployed backend API.
+
 ## Running the Application
 
 1. Start the backend first.
@@ -245,6 +263,14 @@ The frontend dev server usually opens at `http://localhost:5173`.
 3. Open the frontend URL in your browser.
 
 If the backend and frontend are running on different ports, the backend CORS policy is already configured to allow requests from the frontend.
+
+For deployment or production preview, configure the frontend environment variable:
+
+```bash
+export VITE_API_URL=https://agileflow-jl7c.onrender.com/api
+```
+
+Then rebuild the frontend before deploying.
 
 ## Backend API
 
@@ -494,8 +520,9 @@ Key configuration is located in `backend/src/main/resources/application.properti
 
 The backend exposes OpenAPI documentation at:
 
-- `http://localhost:8080/swagger-ui.html`
-- `http://localhost:8080/api-docs`
+- Local development: `http://localhost:8080/swagger-ui.html`
+- Local API docs: `http://localhost:8080/api-docs`
+- Deployed Render API docs: `https://agileflow-jl7c.onrender.com/swagger-ui/index.html`
 
 ## Security Considerations
 
