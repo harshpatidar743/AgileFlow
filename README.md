@@ -42,6 +42,8 @@ AgileFlow is a lightweight Agile Project Management web application built for sm
 
 **Application:** https://agile-flow-topaz.vercel.app
 
+**Video Link:** https://drive.google.com/file/d/1517XEAhig__gDzTgZWr0by_Em3WfYvTY/view?usp=drive_link
+
 **API Documentation:** https://agileflow-jl7c.onrender.com/swagger-ui/index.html
 
 ## Architecture
