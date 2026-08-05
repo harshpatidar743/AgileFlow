@@ -114,7 +114,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, onClose, unreadCount }) 
             AgileFlow Project Tool
           </Typography>
           <Typography variant="caption" sx={{ color: '#94a3b8', display: 'block' }}>
-            Spring Boot + SQLite + React
+            Work smarter, not harder.
           </Typography>
         </Box>
       </Box>
