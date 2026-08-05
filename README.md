@@ -326,7 +326,7 @@ Then rebuild the frontend before deploying.
 
 Given the limited development timeframe for the assignment, AI-assisted tools were used selectively to accelerate routine development tasks and support the implementation process.
 
-- **Google Antigravity:** (Gemini 3.6 Flash) Assisted with boilerplate generation, UI refinement, repetitive implementation tasks, and development troubleshooting.
+- **VS Code + Codex:** Assisted with boilerplate generation, UI refinement, repetitive implementation tasks, and development troubleshooting.
 - **ChatGPT:** Used for requirement clarification, implementation review, debugging guidance, and documentation refinement.
 - AI assistance helped suggest standard project structure, naming conventions, and common edge cases.
 - AI-generated suggestions were reviewed and adjusted as needed to remain aligned with the assignment requirements and the actual implementation.
