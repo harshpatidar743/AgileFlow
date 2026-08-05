@@ -21,6 +21,7 @@ AgileFlow is a lightweight Agile Project Management web application built for sm
 - [Database Schema & Relationships](#database-schema--relationships)
 - [Asynchronous Reminder Workflow](#asynchronous-reminder-workflow)
 - [Configuration](#configuration)
+- [Security Considerations](#security-considerations)
 - [What I Would Improve or Build Next](#what-i-would-improve-or-build-next)
 - [Development Notes](#development-notes)
 - [Troubleshooting](#troubleshooting)
