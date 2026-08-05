@@ -1,0 +1,58 @@
+# Java / Maven
+target/
+*.log
+*.tmp
+*.bak
+*.swp
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+.idea/
+*.ipr
+*.iws
+out/
+.DS_Store
+/.mvn/wrapper/maven-wrapper.jar
+
+# Spring Boot
+spring.log
+
+# IDEs
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Node / npm / pnpm / yarn
+node_modules/
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Vite
+dist/
+.env
+.env.*
+
+# Logs
+logs/
+*.log
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Icon?
+
+# Generated files
+*.class
+*.jar
+*.war
+*.ear
+
+# Frontend cache
+.cache/
