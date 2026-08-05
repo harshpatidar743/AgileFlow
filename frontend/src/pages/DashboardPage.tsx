@@ -25,6 +25,8 @@ import { useNavigate } from 'react-router-dom';
 interface DashboardPageProps {
   stats: DashboardStats | null;
   notifications: NotificationItem[];
+  hasProjects: boolean;
+  hasUserStories: boolean;
   onOpenProjectDialog: () => void;
   onOpenStoryDialog: () => void;
   onOpenTaskDialog: () => void;
@@ -33,6 +35,8 @@ interface DashboardPageProps {
 export const DashboardPage: React.FC<DashboardPageProps> = ({
   stats,
   notifications,
+  hasProjects,
+  hasUserStories,
   onOpenProjectDialog,
   onOpenStoryDialog,
   onOpenTaskDialog,
@@ -111,24 +115,28 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           >
             New Project
           </Button>
-          <Button
-            variant="outlined"
-            size="small"
-            startIcon={<Plus size={16} />}
-            onClick={onOpenStoryDialog}
-            sx={{ textTransform: 'none', fontWeight: 600 }}
-          >
-            New User Story
-          </Button>
-          <Button
-            variant="contained"
-            size="small"
-            startIcon={<Plus size={16} />}
-            onClick={onOpenTaskDialog}
-            sx={{ textTransform: 'none', fontWeight: 600, background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)' }}
-          >
-            New Task
-          </Button>
+          {hasProjects && (
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<Plus size={16} />}
+              onClick={onOpenStoryDialog}
+              sx={{ textTransform: 'none', fontWeight: 600 }}
+            >
+              New User Story
+            </Button>
+          )}
+          {hasUserStories && (
+            <Button
+              variant="contained"
+              size="small"
+              startIcon={<Plus size={16} />}
+              onClick={onOpenTaskDialog}
+              sx={{ textTransform: 'none', fontWeight: 600, background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)' }}
+            >
+              New Task
+            </Button>
+          )}
         </Box>
       </Box>
 

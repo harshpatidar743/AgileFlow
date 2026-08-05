@@ -59,6 +59,8 @@ const AppContent: React.FC = () => {
   const [tasks, setTasks] = useState<TaskItem[]>([]);
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const hasProjects = projects.length > 0;
+  const hasUserStories = userStories.length > 0;
 
   // Dialog States
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
@@ -283,15 +285,29 @@ const AppContent: React.FC = () => {
                 <DashboardPage
                   stats={stats}
                   notifications={notifications}
+                  hasProjects={hasProjects}
+                  hasUserStories={hasUserStories}
                   onOpenProjectDialog={() => {
                     setSelectedProject(null);
                     setProjectDialogOpen(true);
                   }}
                   onOpenStoryDialog={() => {
+                    if (!hasProjects) {
+                      enqueueSnackbar('Create a project first before adding user stories.', { variant: 'warning' });
+                      return;
+                    }
                     setSelectedStory(null);
                     setStoryDialogOpen(true);
                   }}
                   onOpenTaskDialog={() => {
+                    if (!hasProjects) {
+                      enqueueSnackbar('Create a project first before adding tasks.', { variant: 'warning' });
+                      return;
+                    }
+                    if (!hasUserStories) {
+                      enqueueSnackbar('Create a user story first before adding tasks.', { variant: 'warning' });
+                      return;
+                    }
                     setSelectedTask(null);
                     setTaskDialogOpen(true);
                   }}
@@ -322,6 +338,10 @@ const AppContent: React.FC = () => {
                   userStories={userStories}
                   projects={projects}
                   onOpenCreateDialog={(projId) => {
+                    if (projects.length === 0) {
+                      enqueueSnackbar('Create a project first before adding a user story.', { variant: 'warning' });
+                      return;
+                    }
                     setSelectedStory(null);
                     setDefaultStoryProjectId(projId);
                     setStoryDialogOpen(true);
@@ -341,7 +361,17 @@ const AppContent: React.FC = () => {
                   tasks={tasks}
                   userStories={userStories}
                   projects={projects}
+                  hasProjects={hasProjects}
+                  hasUserStories={hasUserStories}
                   onOpenCreateDialog={(storyId) => {
+                    if (projects.length === 0) {
+                      enqueueSnackbar('Create a project first before adding a task.', { variant: 'warning' });
+                      return;
+                    }
+                    if (userStories.length === 0) {
+                      enqueueSnackbar('Create a user story first before adding a task.', { variant: 'warning' });
+                      return;
+                    }
                     setSelectedTask(null);
                     setDefaultTaskStoryId(storyId);
                     setTaskDialogOpen(true);

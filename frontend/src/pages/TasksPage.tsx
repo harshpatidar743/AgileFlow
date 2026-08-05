@@ -36,6 +36,8 @@ interface TasksPageProps {
   tasks: TaskItem[];
   userStories: UserStory[];
   projects: Project[];
+  hasProjects: boolean;
+  hasUserStories: boolean;
   onOpenCreateDialog: (defaultStoryId?: string) => void;
   onOpenEditDialog: (task: TaskItem) => void;
   onConfirmDelete: (task: TaskItem) => void;
@@ -46,6 +48,8 @@ export const TasksPage: React.FC<TasksPageProps> = ({
   tasks,
   userStories,
   projects,
+  hasProjects,
+  hasUserStories,
   onOpenCreateDialog,
   onOpenEditDialog,
   onConfirmDelete,
@@ -179,14 +183,16 @@ export const TasksPage: React.FC<TasksPageProps> = ({
             </ToggleButton>
           </ToggleButtonGroup>
 
-          <Button
-            variant="contained"
-            startIcon={<Plus size={16} />}
-            onClick={() => onOpenCreateDialog(storyFilterValue || undefined)}
-            sx={{ textTransform: 'none', fontWeight: 600, background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)' }}
-          >
-            Create Task
-          </Button>
+          {userStories.length > 0 && (
+            <Button
+              variant="contained"
+              startIcon={<Plus size={16} />}
+              onClick={() => onOpenCreateDialog(storyFilterValue || undefined)}
+              sx={{ textTransform: 'none', fontWeight: 600, background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)' }}
+            >
+              Create Task
+            </Button>
+          )}
         </Box>
       </Box>
 
@@ -241,7 +247,25 @@ export const TasksPage: React.FC<TasksPageProps> = ({
         )}
       </Box>
 
-      {viewMode === 'kanban' ? (
+      {!hasProjects ? (
+        <Box sx={{ textAlign: 'center', py: 6, backgroundColor: '#ffffff', borderRadius: 3, border: '1px solid #e2e8f0' }}>
+          <Typography variant="h6" sx={{ color: '#64748b', fontWeight: 600, mb: 1 }}>
+            No projects available
+          </Typography>
+          <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+            Create a project first to start adding user stories and tasks.
+          </Typography>
+        </Box>
+      ) : userStories.length === 0 ? (
+        <Box sx={{ textAlign: 'center', py: 6, backgroundColor: '#ffffff', borderRadius: 3, border: '1px solid #e2e8f0' }}>
+          <Typography variant="h6" sx={{ color: '#64748b', fontWeight: 600, mb: 1 }}>
+            No user stories available
+          </Typography>
+          <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+            Create a user story first to start adding tasks.
+          </Typography>
+        </Box>
+      ) : viewMode === 'kanban' ? (
         <Grid container spacing={3}>
           {columns.map((col) => {
             const colTasks = filteredTasks.filter((t) => t.status === col.status);

@@ -70,14 +70,16 @@ export const UserStoriesPage: React.FC<UserStoriesPageProps> = ({
           </Typography>
         </Box>
 
-        <Button
-          variant="contained"
-          startIcon={<Plus size={16} />}
-          onClick={() => onOpenCreateDialog(selectedProjectId || undefined)}
-          sx={{ textTransform: 'none', fontWeight: 600, background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)' }}
-        >
-          Create User Story
-        </Button>
+        {projects.length > 0 && (
+          <Button
+            variant="contained"
+            startIcon={<Plus size={16} />}
+            onClick={() => onOpenCreateDialog(selectedProjectId || undefined)}
+            sx={{ textTransform: 'none', fontWeight: 600, background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)' }}
+          >
+            Create User Story
+          </Button>
+        )}
       </Box>
 
       <Box sx={{ mb: 4, maxWidth: 360 }}>
@@ -107,7 +109,11 @@ export const UserStoriesPage: React.FC<UserStoriesPageProps> = ({
             No User Stories found
           </Typography>
           <Typography variant="body2" sx={{ color: '#94a3b8', mt: 1 }}>
-            {selectedProjectId ? 'No user stories in this project yet.' : 'Click "Create User Story" to add your first story!'}
+            {projects.length === 0
+              ? 'Create a project first before adding user stories.'
+              : selectedProjectId
+              ? 'No user stories in this project yet.'
+              : 'Click "Create User Story" to add your first story!'}
           </Typography>
         </Box>
       ) : (
