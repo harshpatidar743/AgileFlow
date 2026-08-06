@@ -28,43 +28,52 @@ public class TaskReminderScheduler {
     private final TaskRepository taskRepository;
     private final NotificationRepository notificationRepository;
 
-    @Scheduled(cron = "0 * * * * *") // Runs every minute at second 0
+    // Runs every 15 seconds to reduce notification latency in low-traffic deployments
+    @Scheduled(cron = "*/15 * * * * *")
     @Transactional
     public void checkForUpcomingDueTasks() {
-        logger.info("Executing scheduled task reminder check...");
+        logger.debug("Executing scheduled task reminder check...");
 
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime threshold = now.plusHours(24);
+        try {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime threshold = now.plusHours(24);
 
-        List<Task> pendingTasks = taskRepository.findPendingTasksDueBefore(now, threshold);
+            List<Task> pendingTasks = taskRepository.findPendingTasksDueBefore(now, threshold);
 
-        if (pendingTasks.isEmpty()) {
-            logger.info("No upcoming tasks due within 24 hours needing notification.");
-            return;
-        }
+            if (pendingTasks.isEmpty()) {
+                logger.debug("No upcoming tasks due within 24 hours needing notification.");
+                return;
+            }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-        for (Task task : pendingTasks) {
-            String formattedDueDate = task.getDueDate() != null ? task.getDueDate().format(formatter) : "N/A";
-            String message = String.format("Reminder: Task '%s' in Story '%s' (Project: '%s') is due soon at %s!",
-                    task.getTitle(),
-                    task.getUserStory().getTitle(),
-                    task.getUserStory().getProject().getName(),
-                    formattedDueDate);
+            for (Task task : pendingTasks) {
+                try {
+                    String formattedDueDate = task.getDueDate() != null ? task.getDueDate().format(formatter) : "N/A";
+                    String message = String.format("Reminder: Task '%s' in Story '%s' (Project: '%s') is due soon at %s!",
+                            task.getTitle(),
+                            task.getUserStory().getTitle(),
+                            task.getUserStory().getProject().getName(),
+                            formattedDueDate);
 
-            Notification notification = Notification.builder()
-                    .taskId(task.getId())
-                    .message(message)
-                    .isRead(false)
-                    .build();
+                    Notification notification = Notification.builder()
+                            .taskId(task.getId())
+                            .message(message)
+                            .isRead(false)
+                            .build();
 
-            notificationRepository.save(notification);
+                    notificationRepository.save(notification);
 
-            task.setNotified(true);
-            taskRepository.save(task);
+                    task.setNotified(true);
+                    taskRepository.save(task);
 
-            logger.info("Created due date notification for task ID: {} ({})", task.getId(), task.getTitle());
+                    logger.info("Created due date notification for task ID: {} ({})", task.getId(), task.getTitle());
+                } catch (Exception e) {
+                    logger.error("Failed to create notification for task ID {}: {}", task.getId(), e.getMessage(), e);
+                }
+            }
+        } catch (Exception ex) {
+            logger.error("Task reminder scheduler failed: {}", ex.getMessage(), ex);
         }
     }
 }

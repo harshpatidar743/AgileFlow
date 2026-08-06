@@ -38,10 +38,7 @@ export const NotificationsPage: React.FC<NotificationsPageProps> = ({
       <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
         <Box>
           <Typography variant="h4" sx={{ fontWeight: 700, color: '#0f172a', letterSpacing: '-0.5px' }}>
-            Background Notifications Inbox
-          </Typography>
-          <Typography variant="body1" sx={{ color: '#64748b' }}>
-            Automated alerts triggered by Spring Scheduler background task monitoring
+            Notifications Inbox
           </Typography>
         </Box>
 
